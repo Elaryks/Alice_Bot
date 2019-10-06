@@ -2,8 +2,8 @@
 
 require("settings.php");
 require("methods.php");
-require("commands.php");
-require("messages.php");
+//require("commands.php");
+//require("messages.php");
 
 if (!isset($_REQUEST)) {
     return;
@@ -20,7 +20,8 @@ switch ($userdata->type) {
         die($confirmationKey);
         break;
     case 'message_new':
-        SendTextMessage($userdata->object->from_id, CheckMessage($userdata));
+        $user_id = $userdata->object->from_id;
+        SendTextMessage($user_id, 'hello');
         die("ok");
         break;
 }
