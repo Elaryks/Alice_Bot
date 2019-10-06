@@ -18,7 +18,7 @@ switch ($userdata->type) {
         die($confirmationKey);
         break;
     case 'message_new':
-        SendTextMessage($userdata->object->conversation_message_id, $userdata->object->from_id, 'привет! это тестовое сообщение!');
+        SendTextMessage($userdata->object->from_id, 'привет! это тестовое сообщение!');
         die("ok");
         break;
 }

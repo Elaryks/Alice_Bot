@@ -12,7 +12,7 @@ function logging($log_msg)
     file_put_contents($log_file_data, $log_msg . "\n", FILE_APPEND);
 }
 
-function SendTextMessage($message_id, $from_id, $message)
+function SendTextMessage($from_id, $message)
 {
     global $botToken;
     global $groupID;
@@ -27,8 +27,8 @@ function SendTextMessage($message_id, $from_id, $message)
         'v' => '5.101'
     );
     $get_params = http_build_query($request_params);
-    file_get_contents("https://api.vk.com/method/messages.markAsRead?message_ids={$message_id}&group_id={$groupID}&access_token={$botToken}&v=5.101");
     file_get_contents("https://api.vk.com/method/messages.setActivity?user_id={$from_id}&type=typing&access_token={$botToken}&v=5.101");
+    file_get_contents("https://api.vk.com/method/messages.markAsRead?peer_id={$from_id}&group_id={$groupID}&access_token={$botToken}&v=5.101");
     sleep(1.5);
     file_get_contents("https://api.vk.com/method/messages.send?" . $get_params);
 }
