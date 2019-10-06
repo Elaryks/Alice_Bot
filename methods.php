@@ -24,7 +24,8 @@ function SendMessage($from_id, $message)
         'access_token' => $botToken,
         'v' => '5.101'
     );
+    wh_log('rq_params: ' . $request_params);
     $get_params = http_build_query($request_params);
-    wh_log($get_params);
+    wh_log('params: ' . $get_params);
     file_get_contents('https://api.vk.com/method/messages.send?' . $get_params);
 }
