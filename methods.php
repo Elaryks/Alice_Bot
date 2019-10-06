@@ -12,6 +12,13 @@ function logging($log_msg)
     file_put_contents($log_file_data, $log_msg . "\n", FILE_APPEND);
 }
 
+function CheckMessage($userdata)
+{
+    $message = mb_strtolower($userdata->object->body);
+    logging($message);
+    return 'привет.';
+}
+
 function SendTextMessage($from_id, $message)
 {
     global $botToken;
