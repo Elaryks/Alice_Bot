@@ -1,6 +1,6 @@
 <?php
 
-function wh_log($log_msg)
+function logging($log_msg)
 {
     $log_filename = "log";
     if (!file_exists($log_filename)) {
@@ -20,12 +20,13 @@ function SendMessage($from_id, $message)
     $msg = $user_name . ", " . $message;
     $request_params = array(
         'user_id' => $from_id,
-        'random_id' => strval(random_int(1000, 1000000)),
+        'random_id' => strval(random_int(1, 100000000)),
         'message' => $msg,
         'access_token' => $botToken,
         'v' => '5.101'
     );
     $get_params = http_build_query($request_params);
-    wh_log('params: ' . $get_params);
+    file_get_contents('https://api.vk.com/method/messages.setActivity?user_id=' . $from_id . '&type=typing');
+    sleep(3);
     file_get_contents('https://api.vk.com/method/messages.send?' . $get_params);
 }
