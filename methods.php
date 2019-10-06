@@ -14,9 +14,12 @@ function logging($log_msg)
 
 function CheckMessage($userdata)
 {
-    $message = mb_strtolower($userdata->object->body);
-    logging($message);
-    return 'привет.';
+    global $botToken;
+    $from_id = $userdata->object->from_id
+    //$message = mb_strtolower($userdata->object->text);
+    $user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$from_id}&access_token={$botToken}&v=5.101"), true);
+    $user_name = $user_info['response'][0]['first_name'];
+    return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
 }
 
 function SendTextMessage($from_id, $message)
