@@ -1,5 +1,17 @@
 <?php
 
+function wh_log($log_msg)
+{
+    $log_filename = "log";
+    if (!file_exists($log_filename)) {
+        // create directory/folder uploads.
+        mkdir($log_filename, 0777, true);
+    }
+    $log_file_data = $log_filename . '/log_' . date('d-M-Y') . '.log';
+    // if you don't add `FILE_APPEND`, the file will be erased each time you add a log
+    file_put_contents($log_file_data, $log_msg . "\n", FILE_APPEND);
+}
+
 function SendMessage($user_id, $message)
 {
     global $botToken;
@@ -13,5 +25,6 @@ function SendMessage($user_id, $message)
         'v' => '5.101'
     );
     $get_params = http_build_query($request_params);
+    wh_log($get_params);
     file_get_contents('https://api.vk.com/method/messages.send?' . $get_params);
 }
