@@ -15,16 +15,16 @@ function wh_log($log_msg)
 function SendMessage($from_id, $message)
 {
     global $botToken;
-    $user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$from_id}&access_token={$botToken}&v=5.101"));
+    $user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$from_id}&access_token={$botToken}&v=5.101"), true);
     $user_name = $user_info['response'][0]['first_name'];
     $msg = $user_name . ", " . $message;
     $request_params = array(
-        'message' => $msg,
         'user_id' => $from_id,
+        'random_id' => strval(random_int(1000, 1000000)),
+        'message' => $msg,
         'access_token' => $botToken,
         'v' => '5.101'
     );
-    wh_log('rq_params: ' . $request_params);
     $get_params = http_build_query($request_params);
     wh_log('params: ' . $get_params);
     file_get_contents('https://api.vk.com/method/messages.send?' . $get_params);
