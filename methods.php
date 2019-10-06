@@ -15,8 +15,31 @@ function logging($log_msg)
 
 
 
-function CheckMessage($message)
+function CheckMessage()
 {
+
+    global $message, $que;
+    $words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
+    $cnt = cound($words);
+    for ($i = 0; $i < $cnt; $i++) {
+        for ($a = 0; $a < $que[0][0]; $a++)
+        {
+            if (in_array($words[$i], $que[$a+1])) {
+                return "и тебе доброго времени суток, &#128540;";
+            } else {
+                return "извини, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
+            }
+            }
+        }
+        /*
+        if (in_array($words[$i])) {
+            return "и тебе доброго времени суток, &#128540;";
+        } else {
+            return "извини, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
+        }*/
+    }
+
+
     //$message = mb_strtolower($userdata->object->text);
     //return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
     //global $user_id, $que;
@@ -31,7 +54,7 @@ function CheckMessage($message)
         }*/
 
     //}
-    return "hmm";
+
 }
 
 function SetActivity($type)
