@@ -47,6 +47,6 @@ function SendTextMessage($from_id, $message)
     );
     $get_params = http_build_query($request_params);
     SetActivity("typing");
-    sleep(0.5);
+    sleep(1.5);
     file_get_contents("https://api.vk.com/method/messages.send?" . $get_params);
 }
