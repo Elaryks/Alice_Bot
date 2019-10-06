@@ -3,7 +3,7 @@
 require("settings.php");
 require("methods.php");
 //require("commands.php");
-//require("messages.php");
+require("messages.php");
 
 if (!isset($_REQUEST)) {
     return;
