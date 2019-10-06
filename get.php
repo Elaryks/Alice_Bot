@@ -21,7 +21,8 @@ switch ($userdata->type) {
         break;
     case 'message_new':
         $user_id = $userdata->object->from_id;
-        SendTextMessage($user_id, 'извини, я тебя пока что не понимаю &#128532;');
+        $message = CheckMessage($userdata->object->text);
+        SendTextMessage($user_id, $message);
         die("ok");
         break;
 }

@@ -15,13 +15,19 @@ function logging($log_msg)
 
 
 
-function CheckMessage($userdata)
+function CheckMessage($message)
 {
-    global $botToken;
     //$message = mb_strtolower($userdata->object->text);
-    $user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$from_id}&access_token={$botToken}&v=5.101"), true);
-    $user_name = $user_info['response'][0]['first_name'];
-    return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
+    //return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
+    global $user_id;
+    $user_name = "Yaroslav";
+    $words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
+    $cnt = count($words);
+    for ($i = 0; $i < $cnt; $i++) {
+        if ($words[$i] == ("привет" || "дороу" || "хай")) {
+            return "и тебе доброго времени суток, {$user_name} &#128540;";
+        }
+    }
 }
 
 function SetActivity($type)
