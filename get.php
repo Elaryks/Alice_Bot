@@ -18,7 +18,6 @@ switch ($userdata->type) {
         die($confirmationKey);
         break;
     case 'message_new':
-        wh_log($userdata->object->from_id);
         SendMessage($userdata->object->from_id, 'привет! это тестовое сообщение!');
         die("ok");
         break;
