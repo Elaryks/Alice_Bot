@@ -19,18 +19,19 @@ function CheckMessage($message)
 {
     //$message = mb_strtolower($userdata->object->text);
     //return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
-    global $user_id, $que;
-    $words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
-    $cnt = count($words);
-    for ($i = 0; $i < $cnt; $i++) {
-        /*logging($i . ' ' . $words[$i]);
+    //global $user_id, $que;
+    //$words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
+    //$cnt = count($words);
+    //for ($i = 0; $i < $cnt; $i++) {
+    /*logging($i . ' ' . $words[$i]);
         if (in_array(words[$i], $que)) {
             return "и тебе доброго времени суток, {$user_name} &#128540;";
         } else {
             return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
         }*/
-        return "hmm";
-    }
+
+    //}
+    return "hmm";
 }
 
 function SetActivity($type)
