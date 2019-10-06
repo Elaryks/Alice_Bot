@@ -26,7 +26,8 @@ function SendMessage($from_id, $message)
         'v' => '5.101'
     );
     $get_params = http_build_query($request_params);
-    file_get_contents('https://api.vk.com/method/messages.setActivity?user_id=' . $from_id . '&type=typing');
+    file_get_contents("https://api.vk.com/method/messages.setActivity?user_id={from_id}&type=typing&access_token={$botToken}&v=5.101");
+    logging("https://api.vk.com/method/messages.setActivity?user_id={from_id}&type=typing&access_token={$botToken}&v=5.101");
     sleep(3);
-    file_get_contents('https://api.vk.com/method/messages.send?' . $get_params);
+    file_get_contents("https://api.vk.com/method/messages.send?" . $get_params);
 }
