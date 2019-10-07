@@ -53,7 +53,7 @@ function GetWeather()
 function UploadPhoto()
 {
     global $botToken;
-    $file = '@' . $_SERVER['DOCUMENT_ROOT'] . '/images/example.jpg';
+    $file['photo'] = '@' . $_SERVER['DOCUMENT_ROOT'] . '/images/example.jpg';
     $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"), true);
     $uploadURL = $uploadJSON['response']['upload_url'];
     logging('upload URL-JSON: ' . $uploadURL);
@@ -62,7 +62,7 @@ function UploadPhoto()
     curl_setopt($ch, CURLOPT_URL, $uploadURL);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $file);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $file['photo']);
     $otvet = curl_exec($ch);
     curl_close($ch);
     logging($otvet);
