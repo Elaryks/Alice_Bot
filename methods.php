@@ -54,9 +54,11 @@ function UploadPhoto()
 {
     global $botToken;
     $file = '' . $_SERVER['DOCUMENT_ROOT'] . '/images/example.jpg';
-    logging('file: ' . $file);
-    $uploadURL = file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101");
-    logging($uploadURL);
+    logging('file path: ' . $file);
+    $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"));
+    $uploadURL = $uploadJSON['response'][0]['upload_url'];
+    logging('upload URL-JSON: ' . $uploadURL);
+    logging('upload URL: ' . $uploadURL);
 }
 
 function CheckMessage($message)
