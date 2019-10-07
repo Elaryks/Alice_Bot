@@ -61,8 +61,7 @@ function SetActivity($type)
 
 function SendTextMessage($from_id, $message)
 {
-    global $botToken;
-    global $groupID;
+    global $botToken, $user_name;
     $msg = $user_name . ", " . $message;
     $request_params = array(
         'user_id' => $from_id,
