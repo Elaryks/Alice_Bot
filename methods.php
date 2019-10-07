@@ -54,11 +54,19 @@ function UploadPhoto()
 {
     global $botToken;
     $file = '' . $_SERVER['DOCUMENT_ROOT'] . '/images/example.jpg';
-    logging('file path: ' . $file);
-    $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"));
-    $uploadURL = $uploadJSON['response'][0]['upload_url'];
+    $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"), true);
+    $uploadURL = $uploadJSON['response']['upload_url'];
     logging('upload URL-JSON: ' . $uploadURL);
     logging('upload URL: ' . $uploadURL);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $uploadURL);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $file);
+    $otvet = curl_exec($ch);
+    curl_close($ch);
+    logging($otvet);
+    return;
 }
 
 function CheckMessage($message)
