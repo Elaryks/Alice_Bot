@@ -1,6 +1,5 @@
 <?php
 
-
 function logging($log_msg)
 {
     $log_filename = "log";
@@ -13,49 +12,45 @@ function logging($log_msg)
     file_put_contents($log_file_data, $log_msg . "\n", FILE_APPEND);
 }
 
+function GetUsername()
+{
+    global $user_id, $botToken;
+    $user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$user_id}&access_token={$botToken}&v=5.101"), true);
+    $user_name = $user_info['response'][0]['first_name'];
+    return $user_name;
+}
 
 
 function CheckMessage()
 {
 
-    global $message, $que;
+    global $message, $que, $user_name;
     $words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
-    $cnt = cound($words);
+    $cnt = count($words);
     for ($i = 0; $i < $cnt; $i++) {
-        for ($a = 0; $a < $que[0][0]; $a++)
-        {
-            if (in_array($words[$i], $que[$a+1])) {
-                return "и тебе доброго времени суток, &#128540;";
-            } else {
-                return "извини, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
-            }
-            }
-        }
-        /*
-        if (in_array($words[$i])) {
-            return "и тебе доброго времени суток, &#128540;";
+        if (array_column($que, $words[$i])) {
+            return "и тебе доброго времени суток, {$user_name} &#128540;";
         } else {
-            return "извини, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
-        }*/
+            return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
+        }
     }
+}
 
 
-    //$message = mb_strtolower($userdata->object->text);
-    //return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
-    //global $user_id, $que;
-    //$words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
-    //$cnt = count($words);
-    //for ($i = 0; $i < $cnt; $i++) {
-    /*logging($i . ' ' . $words[$i]);
+//$message = mb_strtolower($userdata->object->text);
+//return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
+//global $user_id, $que;
+//$words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
+//$cnt = count($words);
+//for ($i = 0; $i < $cnt; $i++) {
+/*logging($i . ' ' . $words[$i]);
         if (in_array(words[$i], $que)) {
             return "и тебе доброго времени суток, {$user_name} &#128540;";
         } else {
             return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
         }*/
 
-    //}
-
-}
+//}
 
 function SetActivity($type)
 {
@@ -68,8 +63,6 @@ function SendTextMessage($from_id, $message)
 {
     global $botToken;
     global $groupID;
-    $user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$from_id}&access_token={$botToken}&v=5.101"), true);
-    $user_name = $user_info['response'][0]['first_name'];
     $msg = $user_name . ", " . $message;
     $request_params = array(
         'user_id' => $from_id,
