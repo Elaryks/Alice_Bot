@@ -53,7 +53,7 @@ function GetWeather()
 function UploadPhoto()
 {
     global $botToken;
-    $file = '' . $_SERVER['DOCUMENT_ROOT'] . '/images/example.jpg';
+    $file = '@' . $_SERVER['DOCUMENT_ROOT'] . '/images/example.jpg';
     $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"), true);
     $uploadURL = $uploadJSON['response']['upload_url'];
     logging('upload URL-JSON: ' . $uploadURL);
