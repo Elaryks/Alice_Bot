@@ -12,6 +12,11 @@ function logging($log_msg)
     file_put_contents($log_file_data, $log_msg . "\n", FILE_APPEND);
 }
 
+function strbool($value) // Возвращение булевых переменных строкой ("false" / "true")
+{
+    return $value ? 'true' : 'false';
+}
+
 function GetUsername()
 {
     global $user_id, $botToken;
@@ -24,11 +29,26 @@ function GetUserInfo() // $info
 {
     global $user_id, $botToken;
     $user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$user_id}&fields=city,country&access_token={$botToken}&lang=en&v=5.101"), true);
+    if (strbool(empty($user_city)) === "true") {
+        return "Кажется, у Вас не указан город в настройках &#128532; К сожалению, пока что я не могу сообщить Вам погоду.";
+    }
     $user_city = $user_info['response'][0]['city']['title'];
-    logging('city: ' . $user_city);
+    // $user_country = $user_info['response'][0]['country']['title'];
     return $user_city;
 }
 
+function GetWeather()
+{
+    $user_city = GetUserInfo();
+    $weather_info = json_decode(file_get_contents("http://api.openweathermap.org/data/2.5/weather?q={$user_city}&units=metric&APPID=3d1a65cde09ddedde287f0a4a4fa39e7"), true);
+    if ($weather_info['cod'] == '404') {
+        return ("Извини, я почему-то не смог определить температуру в твоём городе, но мой разработчик уже работает над этой проблемой &#128521;");
+    }
+    $temperature = $weather_info['main'][0]['temp'];
+    $pressure = $weather_info['main'][0]['pressure'];
+    $humidity = $weather_info['main'][0]['humidity'];
+    return "По данным OpenWeatherMap в твоём городе вот такая погода:\nТемпература: {$temperature}°C\nДавление: {$pressure}мм рт. ст.\nВлажность: {$humidity}%";
+}
 
 function CheckMessage($message)
 {
@@ -41,6 +61,11 @@ function CheckMessage($message)
         for ($j = 0, $cntj = count(QUE[$i]); $j < $cntj; $j++) {
             if (stristr($message, QUE[$i][$j]) !== FALSE) {
                 $str = ANS[$i][array_rand(ANS[$i], 1)];
+                switch ($str) {
+                    case "user_weather":
+                        $str = GetWeather();
+                        break;
+                }
                 return str_replace("user_name", $user_name, $str);
             }
         }
