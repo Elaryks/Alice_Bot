@@ -34,6 +34,7 @@ function CheckMessage($message)
 {
 
     global $user_name;
+    GetUserInfo();
     $message = mb_strtolower($message);
     $message = preg_replace('/[^a-zа-яё0-9]+/iu', '', $message); // Удаляем всё кроме букв и цифр из строки
     for ($i = 0, $cnti = count(QUE); $i < $cnti; $i++) {
