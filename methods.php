@@ -24,9 +24,12 @@ function GetUsername()
 function CheckMessage($message)
 {
 
-    global $que, $user_name;
-    $message = preg_replace('/[[:punct:]]|[[:space:]]/gum', '', mb_strtolower($message));
-    logging('msg: ' . $message);
+    global $user_name;
+    $message = mb_strtolower($message);
+    $message = preg_replace('/[^a-zа-яё0-9]+/iu', '', $message); // Удаляем всё кроме букв и цифр из строки
+
+    logging(count(QUE));
+
     // $words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
     // $cnt = count($words);
     /*for ($i = 0; $i < $cnt; $i++) {
