@@ -30,9 +30,9 @@ function CheckMessage($message)
     for ($i = 0, $cnti = count(QUE); $i < $cnti; $i++) {
         for ($j = 0, $cntj = count(QUE[$i]); $j < $cntj; $j++) {
             if (stristr($message, QUE[$i][$j]) !== FALSE) {
-                return array_rand(ANS[$i], 1);
+                return ANS[$i][array_rand(ANS[$i], 1)];
             } else {
-                return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
+                return "Извини, {$user_name}, я тебя не понял &#128532;"; // Напиши \"Справка\", чтобы узнать доступные команды
             }
         }
     }
