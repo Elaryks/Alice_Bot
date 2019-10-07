@@ -44,7 +44,7 @@ function GetWeather()
     if ($weather_info['cod'] == '404') {
         return ("Извини, я почему-то не смог определить температуру в твоём городе, но мой разработчик уже работает над этой проблемой &#128521;");
     }
-    $temperature = $weather_info['main']['temp'];
+    $temperature = round(floatval($weather_info['main']['temp']));
     $pressure = $weather_info['main']['pressure'];
     $humidity = $weather_info['main']['humidity'];
     return "По данным OpenWeatherMap в твоём городе ({$user_city}, ю ноу) вот такая погода:\nТемпература: {$temperature}°C\nДавление: {$pressure} мм рт. ст.\nВлажность: {$humidity}%";
