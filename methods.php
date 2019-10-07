@@ -30,7 +30,8 @@ function CheckMessage($message)
     for ($i = 0, $cnti = count(QUE); $i < $cnti; $i++) {
         for ($j = 0, $cntj = count(QUE[$i]); $j < $cntj; $j++) {
             if (stristr($message, QUE[$i][$j]) !== FALSE) {
-                return str_replace("user_name", $user_name, ANS[$i][array_rand(ANS[$i], 1)]);
+                $str = ANS[$i][array_rand(ANS[$i], 1)];
+                return str_replace("user_name", $user_name, $str);
             } else {
                 return "Извини, {$user_name}, я тебя не понял &#128532;"; // Напиши \"Справка\", чтобы узнать доступные команды
             }
