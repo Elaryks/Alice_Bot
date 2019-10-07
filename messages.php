@@ -30,6 +30,6 @@ const ANS = array(
         "В целом всё гут, user_name &#128521;"
     ),
     2 => array(
-        GetWeather();
+        0 => "user_weather"
     )
 );
