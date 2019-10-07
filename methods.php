@@ -36,34 +36,7 @@ function CheckMessage($message)
         }
     }
     return "Извини, {$user_name}, я тебя не понял &#128532;"; // Напиши \"Справка\", чтобы узнать доступные команды
-
-    // $words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
-    // $cnt = count($words);
-    /*for ($i = 0; $i < $cnt; $i++) {
-        if (array_column($que, $words[$i])) {
-            return "И тебе доброго времени суток, {$user_name} &#128540;";
-        } else {
-            return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
-        }
-    }*/
-    // return "Извини, я временно не работаю";
 }
-
-
-//$message = mb_strtolower($userdata->object->text);
-//return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
-//global $user_id, $que;
-//$words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
-//$cnt = count($words);
-//for ($i = 0; $i < $cnt; $i++) {
-/*logging($i . ' ' . $words[$i]);
-        if (in_array(words[$i], $que)) {
-            return "и тебе доброго времени суток, {$user_name} &#128540;";
-        } else {
-            return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
-        }*/
-
-//}
 
 function SetActivity($type)
 {
@@ -74,13 +47,11 @@ function SetActivity($type)
 
 function SendTextMessage($from_id, $message)
 {
-    global $botToken, $user_name;
-    // $msg = $user_name . ", " . $message;
-    $msg = $message;
+    global $botToken;
     $request_params = array(
         'user_id' => $from_id,
         'random_id' => strval(random_int(1, 100000000)),
-        'message' => $msg,
+        'message' => $message,
         'access_token' => $botToken,
         'v' => '5.101'
     );
