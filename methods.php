@@ -24,15 +24,15 @@ function GetUsername()
 function CheckMessage($message)
 {
 
-    // global $user_name;
+    global $user_name;
     $message = mb_strtolower($message);
     $message = preg_replace('/[^a-zа-яё0-9]+/iu', '', $message); // Удаляем всё кроме букв и цифр из строки
     for ($i = 0, $cnti = count(QUE); $i < $cnti; $i++) {
         for ($j = 0, $cntj = count(QUE[$i]); $j < $cntj; $j++) {
-            if (stristr($message, QUE[$j]) !== FALSE) {
-                return "Hello";
+            if (stristr($message, QUE[$i][$j]) !== FALSE) {
+                return array_rand(ANS[$i], 1);
             } else {
-                return "Sorry, I don't understand";
+                return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
             }
         }
     }
