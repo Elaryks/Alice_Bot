@@ -29,10 +29,10 @@ function GetUserInfo() // $info
 {
     global $user_id, $botToken;
     $user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$user_id}&fields=city,country&access_token={$botToken}&lang=en&v=5.101"), true);
+    $user_city = $user_info['response'][0]['city']['title'];
     if (strbool(empty($user_city)) === "true") {
         return "Кажется, у Вас не указан город в настройках &#128532; К сожалению, пока что я не могу сообщить Вам погоду.";
     }
-    $user_city = $user_info['response'][0]['city']['title'];
     // $user_country = $user_info['response'][0]['country']['title'];
     return $user_city;
 }
@@ -44,10 +44,10 @@ function GetWeather()
     if ($weather_info['cod'] == '404') {
         return ("Извини, я почему-то не смог определить температуру в твоём городе, но мой разработчик уже работает над этой проблемой &#128521;");
     }
-    $temperature = $weather_info['main'][0]['temp'];
-    $pressure = $weather_info['main'][0]['pressure'];
-    $humidity = $weather_info['main'][0]['humidity'];
-    return "По данным OpenWeatherMap в твоём городе вот такая погода:\nТемпература: {$temperature}°C\nДавление: {$pressure}мм рт. ст.\nВлажность: {$humidity}%";
+    $temperature = $weather_info['main']['temp'];
+    $pressure = $weather_info['main']['pressure'];
+    $humidity = $weather_info['main']['humidity'];
+    return "По данным OpenWeatherMap в твоём городе ({$user_city}, ю ноу) вот такая погода:\nТемпература: {$temperature}°C\nДавление: {$pressure} мм рт. ст.\nВлажность: {$humidity}%";
 }
 
 function CheckMessage($message)
