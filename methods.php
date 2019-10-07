@@ -29,7 +29,7 @@ function CheckMessage()
     $cnt = count($words);
     for ($i = 0; $i < $cnt; $i++) {
         if (array_column($que, $words[$i])) {
-            return "и тебе доброго времени суток, {$user_name} &#128540;";
+            return "И тебе доброго времени суток, {$user_name} &#128540;";
         } else {
             return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
         }
@@ -62,7 +62,8 @@ function SetActivity($type)
 function SendTextMessage($from_id, $message)
 {
     global $botToken, $user_name;
-    $msg = $user_name . ", " . $message;
+    // $msg = $user_name . ", " . $message;
+    $msg = $message;
     $request_params = array(
         'user_id' => $from_id,
         'random_id' => strval(random_int(1, 100000000)),
