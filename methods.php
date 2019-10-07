@@ -24,11 +24,18 @@ function GetUsername()
 function CheckMessage($message)
 {
 
-    global $user_name;
+    // global $user_name;
     $message = mb_strtolower($message);
     $message = preg_replace('/[^a-zа-яё0-9]+/iu', '', $message); // Удаляем всё кроме букв и цифр из строки
-
-    logging(count(QUE));
+    for ($i = 0, $cnti = count(QUE); $i < $cnti; $i++) {
+        for ($j = 0, $cntj = count(QUE[$i]); $j < $cntj; $j++) {
+            if (stristr($message, QUE[$j]) !== FALSE) {
+                return "Hello";
+            } else {
+                return "Sorry, I don't understand";
+            }
+        }
+    }
 
     // $words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
     // $cnt = count($words);
@@ -39,7 +46,7 @@ function CheckMessage($message)
             return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
         }
     }*/
-    return "Извини, я временно не работаю";
+    // return "Извини, я временно не работаю";
 }
 
 
