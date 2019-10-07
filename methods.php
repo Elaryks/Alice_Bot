@@ -21,19 +21,22 @@ function GetUsername()
 }
 
 
-function CheckMessage()
+function CheckMessage($message)
 {
 
-    global $message, $que, $user_name;
-    $words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
-    $cnt = count($words);
-    for ($i = 0; $i < $cnt; $i++) {
+    global $que, $user_name;
+    $message = preg_replace('/[[:punct:]]|[[:space:]]/gum', '', mb_strtolower($message));
+    logging('msg: ' . $message);
+    // $words = preg_split("/[\s,]+/", mb_strtolower($message)); // Разбиваем полученное сообщение на слова
+    // $cnt = count($words);
+    /*for ($i = 0; $i < $cnt; $i++) {
         if (array_column($que, $words[$i])) {
             return "И тебе доброго времени суток, {$user_name} &#128540;";
         } else {
             return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
         }
-    }
+    }*/
+    return "Извини, я временно не работаю";
 }
 
 
