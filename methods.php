@@ -20,6 +20,15 @@ function GetUsername()
     return $user_name;
 }
 
+function GetUserInfo() // $info
+{
+    global $user_id, $botToken;
+    $user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$user_id}&fields=city,country&access_token={$botToken}&lang=en&v=5.101"), true);
+    $user_city = $user_info['response'][0]['city']['title'];
+    logging('city: ' . $user_city);
+    return $user_city;
+}
+
 
 function CheckMessage($message)
 {
