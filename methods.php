@@ -50,6 +50,12 @@ function GetWeather()
     return "По данным OpenWeatherMap в твоём городе ({$user_city}, ю ноу) вот такая погода:\nТемпература: {$temperature}°C\nДавление: {$pressure} мм рт. ст.\nВлажность: {$humidity}%";
 }
 
+function UploadPhoto()
+{
+    $file = '' . $_SERVER['DOCUMENT_ROOT'] . '/images/example.jpg';
+    logging($file);
+}
+
 function CheckMessage($message)
 {
 
@@ -70,6 +76,7 @@ function CheckMessage($message)
             }
         }
     }
+    UploadPhoto();
     return "Извини, {$user_name}, я тебя не понял &#128532;"; // Напиши \"Справка\", чтобы узнать доступные команды
 }
 
