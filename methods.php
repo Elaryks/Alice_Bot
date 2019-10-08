@@ -53,7 +53,8 @@ function GetWeather()
 function UploadPhoto()
 {
     global $botToken;
-    $file['file1'] = new \CURLFile('/var/www/vhosts/hosted-by-peakscloud.ru/httpdocs/images/example.jpg'); // ("$_SERVER['DOCUMENT_ROOT'] . '/images/example.jpg'");
+    $f = $_SERVER['DOCUMENT_ROOT'] . '/images/example.jpg';
+    $file['file1'] = new \CURLFile($f, 'image/jpeg', 'photo');
     $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"), true);
     $uploadURL = $uploadJSON['response']['upload_url'];
     logging('upload URL-JSON: ' . $uploadURL);
