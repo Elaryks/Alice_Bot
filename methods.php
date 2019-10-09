@@ -47,7 +47,10 @@ function GetWeather()
     $temperature = round(floatval($weather_info['main']['temp']));
     $pressure = $weather_info['main']['pressure'];
     $humidity = $weather_info['main']['humidity'];
-    return "По данным OpenWeatherMap в твоём городе ({$user_city}, ю ноу) вот такая погода:\nТемпература: {$temperature}°C\nДавление: {$pressure} мм рт. ст.\nВлажность: {$humidity}%";
+    return "По данным OpenWeatherMap в твоём городе ({$user_city}, ю ноу) вот такая погода:
+            Температура: {$temperature}°C
+            Давление: {$pressure} мм рт. ст.
+            Влажность: {$humidity}%";
 }
 
 function UploadPhoto()
