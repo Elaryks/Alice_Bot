@@ -51,8 +51,8 @@ function GetWeather()
     $humidity = $weather_info['main']['humidity']; // Влажность воздуха
     $windspeed = $weather_info['wind']['speed']; // Скорость ветра
     $winddirection = $weather_info['wind']['deg']; // Направление ветра
-    $wd = array('северный', 'северо-восточный', 'восточный', 'юго-восточный', 'южный', 'юго-западный', 'западный', 'северо-западный');
-    $winddirection = $wd[(floor(($winddirection / 45) + 1) % 8)] . " ({$winddirection}°)";
+    $wd = array('северный', 'северо-восточный', 'восточный', 'юго-восточный', 'южный', 'юго-западный', 'западный', 'северо-западный', 'северный');
+    $winddirection = $wd[($winddirection % 360) / 45] . " ({$winddirection}°)";
     return "По данным OpenWeatherMap в твоём городе ({$user_city[1]}, если я не ошибаюсь) вот такая погода:
             Температура: {$temperature}°C
             Давление: {$pressure} мм рт. ст.
