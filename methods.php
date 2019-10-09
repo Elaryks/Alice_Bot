@@ -77,10 +77,10 @@ function UploadPhoto()
     $postData = array("file1" => '@' . $f);
     $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"), true);
     $uploadURL = $uploadJSON['response']['upload_url'];
-
+    logging('UPURL: ' . $uploadURL);
     $response = file_get_contents($uploadURL);
     $response = json_decode($response)->response->upload_url;
-
+    logging('resp: ' . $response);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $response);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -92,11 +92,13 @@ function UploadPhoto()
     $server = $result->server;
     $photo = $result->photo;
     $hash = $result->hash;
+    logging('res: ' . $result);
+    logging('res: ' . $result[0]);
     $saveWallPhoto = file_get_contents("https://api.vk.com/method/photos.saveWallPhoto?access_token=$botToken&v=5.37&group_id=$groupID&server=$server&photo=$photo&hash=$hash");
     $attachment = json_decode($saveWallPhoto)->response[0]->id;
     header("Location: https://api.vk.com/method/wall.post?owner_id=$groupID&from_group=1&access_token=$botToken&attachments=photo{$groupID}_{$attachment}&v=5.37");
 
-    logging($photo);
+    logging('ph: ' . $photo);
 }
 
 function CheckMessage($message)
