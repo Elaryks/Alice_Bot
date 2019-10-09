@@ -94,9 +94,9 @@ function UploadPhoto()
     $hash = $result->hash;
     logging('res: ' . $result);
     logging('res: ' . $result[0]);
-    $saveWallPhoto = file_get_contents("https://api.vk.com/method/photos.saveWallPhoto?access_token=$botToken&v=5.37&group_id=$groupID&server=$server&photo=$photo&hash=$hash");
+    $saveWallPhoto = file_get_contents("https://api.vk.com/method/photos.saveWallPhoto?access_token=$botToken&v=5.101&group_id=$groupID&server=$server&photo=$photo&hash=$hash");
     $attachment = json_decode($saveWallPhoto)->response[0]->id;
-    header("Location: https://api.vk.com/method/wall.post?owner_id=$groupID&from_group=1&access_token=$botToken&attachments=photo{$groupID}_{$attachment}&v=5.37");
+    header("Location: https://api.vk.com/method/wall.post?owner_id=$groupID&from_group=1&access_token=$botToken&attachments=photo{$groupID}_{$attachment}&v=5.101");
 
     logging('ph: ' . $photo);
 }
