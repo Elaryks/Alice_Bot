@@ -71,34 +71,7 @@ function GetWeather()
 
 function UploadPhoto()
 {
-    global $botToken, $groupID;
-    //$f = $_SERVER['DOCUMENT_ROOT'] . '/images/example.jpg';
-    $f = dirname(__FILE__) . '/images/example.jpg';
-    $postData = array("file1" => '@' . $f);
-    $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"), true);
-    $uploadURL = $uploadJSON['response']['upload_url'];
-    logging('UPURL: ' . $uploadURL);
-    $response = file_get_contents($uploadURL);
-    $response = json_decode($response)->response->upload_url;
-    logging('resp: ' . $response);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $response);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-    $result = json_decode(curl_exec($ch));
-    $server = $result->server;
-    $photo = $result->photo;
-    $hash = $result->hash;
-    logging('res: ' . $result);
-    logging('res: ' . $result[0]);
-    $saveWallPhoto = file_get_contents("https://api.vk.com/method/photos.saveWallPhoto?access_token=$botToken&v=5.101&group_id=$groupID&server=$server&photo=$photo&hash=$hash");
-    $attachment = json_decode($saveWallPhoto)->response[0]->id;
-    header("Location: https://api.vk.com/method/wall.post?owner_id=$groupID&from_group=1&access_token=$botToken&attachments=photo{$groupID}_{$attachment}&v=5.101");
-
-    logging('ph: ' . $photo);
+    return;
 }
 
 function CheckMessage($message)
