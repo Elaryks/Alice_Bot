@@ -95,7 +95,7 @@ function CheckMessage($message)
         }
     }
     UploadPhoto();
-    return "Извини, {$user_name}, я тебя не понял &#128532;"; // Напиши \"Справка\", чтобы узнать доступные команды
+    return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
 }
 
 function SetActivity($type)
