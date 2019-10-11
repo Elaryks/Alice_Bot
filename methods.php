@@ -71,15 +71,26 @@ function GetWeather()
 
 function UploadPhoto()
 {
-    $host = 'localhost'; // имя хоста (уточняется у провайдера)
-    $database = 'TheAliceBot'; // имя базы данных, которую вы должны создать
-    $user = 'jaroks'; // заданное вами имя пользователя, либо определенное провайдером
-    $pswd = '200926200926jarok%'; // заданный вами пароль
-
-    $dbh = mysql_connect($host, $user, $pswd) or die("Не могу соединиться с MySQL.");
-    logging('dbh: ' . $dbh);
-    mysql_select_db($database) or die("Не могу подключиться к базе.");
-    return;
+    global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase, $user_id;
+    $connect = mysql_connect($mysqlHost, $mysqlUser, $mysqlPass);
+    if (!$connect)
+        die(json_encode(array("response" => 0, "error" => array("error_id" => 3, "error_message" => "Can't connect to MySQL server"))));
+    else {
+        mysql_select_db($mysqlBase, $connect);
+        $query = "SELECT * FROM `USERS` WHERE `VK_ID` = '" . $user_id . "'";
+        $request = mysql_query($query, $connect);
+        $a = mysql_fetch_array($request);
+        if ($a["uid"] == $user_id)
+            return $a;
+        else {
+            $query = "INSERT INTO `USERS` (`VK_ID`, `START_DATE`) VALUES ('" . $user_id . "', '" . time() . "')";
+            mysql_query($query, $connect);
+            $query = "SELECT * FROM `USERS` WHERE `VK_ID` = '" . $user_id . "'";
+            $request = mysql_query($query, $connect);
+            $a = mysql_fetch_array($request);
+            return $a;
+        }
+    }
 }
 
 function CheckMessage($message)
