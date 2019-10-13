@@ -86,9 +86,9 @@ function DB_Check()
     } else {
         //lg('We should create new note...');
         $datetime = date_create()->format('Y-m-d H:i:s');
-        $query = "SET time_zone = 'Europe/Moscow'";
+        $query = "SET time_zone = 'Europe/Moscow';";
         $query .= "INSERT INTO users (vk_id, s_date, rights) VALUES ('$user_id', '$datetime', 'userx')";
-        mysqli_query($link, $query);
+        mysqli_multi_query($link, $query);
     }
     mysqli_free_result($result);
     mysqli_close($link);
