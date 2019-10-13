@@ -69,7 +69,8 @@ function GetWeather()
             Ветер {$winddirection}, $windspeed м/с";
 }
 
-function DB_Check {
+function DB_Check()
+{
     global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase, $user_id;
     lg("Trying to connect to $mysqlBase to check user...");
     $link = mysqli_connect($mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase);
@@ -83,7 +84,7 @@ function DB_Check {
     if ($row[0]['vk_id'] == $user_id) {
         lg('User exists...');
     } else {
-        lg ('We should create new note...');
+        lg('We should create new note...');
     }
     mysqli_free_result($result);
     mysqli_close($link);
