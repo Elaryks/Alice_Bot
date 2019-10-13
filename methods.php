@@ -76,15 +76,22 @@ function UploadPhoto()
     $link = mysqli_connect($mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase);
     if ($link) {
         lg("Connection successful!..");
-        $query = "SELECT * FROM users WHERE vk_id = '$user_id'";
+        /*$query = "SELECT * FROM users WHERE vk_id = '$user_id'";
         lg($query);
         lg('id: ' . $user_id);
         $result = mysqli_query($link, $query);
         //mysqli_free_result($result);
         $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
         lg('res1: ' . $row[0]['rights']);
-        lg('res2: ' . $row[1]['rights']);
-        mysqli_free_result($result);
+        lg('res2: ' . $row[1]['rights']);*/
+        $datetime = date_create()->format('Y-m-d H:i:s');
+        $query = "INSERT INTO users (vk_id, s_date, rights) VALUES ('$user_id' 'FROM_UNIXTIME($datetime)', 'userx')";
+        if (mysqli_query($link, $query)) {
+            lg('New note adde successfully!..');
+        } else {
+            lg('Something went wrong...');
+        }
+        // mysqli_free_result($result);
         mysqli_close($link);
     } else {
         lg("No connection to mySQL...");
