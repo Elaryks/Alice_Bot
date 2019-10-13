@@ -89,7 +89,7 @@ function UploadPhoto()
         if (mysqli_query($link, $query)) {
             lg('New note adde successfully!..');
         } else {
-            lg('Something went wrong...');
+            lg('Something went wrong...' . mysqli_error($link));
         }
         // mysqli_free_result($result);
         mysqli_close($link);
