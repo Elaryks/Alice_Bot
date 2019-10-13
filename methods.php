@@ -85,7 +85,7 @@ function UploadPhoto()
         lg('res1: ' . $row[0]['rights']);
         lg('res2: ' . $row[1]['rights']);*/
         $datetime = date_create()->format('Y-m-d H:i:s');
-        $query = "INSERT INTO users (vk_id, s_date, rights) VALUES ('$user_id' 'FROM_UNIXTIME($datetime)', 'userx')";
+        $query = "INSERT INTO users (vk_id, s_date, rights) VALUES (NULL, '$user_id' 'FROM_UNIXTIME($datetime)', 'userx')";
         if (mysqli_query($link, $query)) {
             lg('New note adde successfully!..');
         } else {
