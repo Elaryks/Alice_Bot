@@ -69,9 +69,28 @@ function GetWeather()
             Ветер {$winddirection}, $windspeed м/с";
 }
 
+function DB_Check {
+    global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase, $user_id;
+    lg("Trying to connect to $mysqlBase to check user...");
+    $link = mysqli_connect($mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase);
+    if (!$link) {
+        lg("Something went wrong: " . mysqli_connect_errno());
+        die("Something went wrong: " . mysqli_connect_errno());
+    }
+    $query = "SELECT * FROM users WHERE vk_id = '$user_id'";
+    $result = mysqli_query($link, $query);
+    $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    if ($row[0]['vk_id'] == $user_id) {
+        lg('User exists...');
+    } else {
+        lg ('We should create new note...');
+    }
+}
+
 function UploadPhoto()
 {
-    global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase, $user_id;
+    DB_Check();
+    /*global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase, $user_id;
     lg("Trying to connect to $mysqlBase...");
     $link = mysqli_connect($mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase);
     if ($link) {
@@ -83,7 +102,7 @@ function UploadPhoto()
         //mysqli_free_result($result);
         $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
         lg('res1: ' . $row[0]['rights']);
-        lg('res2: ' . $row[1]['rights']);*/
+        lg('res2: ' . $row[1]['rights']);
         $datetime = date_create()->format('Y-m-d H:i:s');
         $query = "INSERT INTO users (vk_id, s_date, rights) VALUES ('$user_id', '$datetime', 'userx')";
         if (mysqli_query($link, $query)) {
@@ -97,7 +116,7 @@ function UploadPhoto()
         lg("No connection to mySQL...");
         die("Connection faled. Error code: " . mysqli_connect_errno());
     }
-    return;
+    return;*/
 }
 
 function CheckMessage($message)
