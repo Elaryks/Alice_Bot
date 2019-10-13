@@ -85,6 +85,8 @@ function DB_Check {
     } else {
         lg ('We should create new note...');
     }
+    mysqli_free_result($result);
+    mysqli_close($link);
 }
 
 function UploadPhoto()
