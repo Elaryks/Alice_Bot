@@ -1,6 +1,6 @@
 <?php
 
-function logging($log_msg)
+function lg($log_msg)
 {
     $log_filename = "log";
     if (!file_exists($log_filename)) {
@@ -72,25 +72,25 @@ function GetWeather()
 function UploadPhoto()
 {
     global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase, $user_id;
-    $connect = mysql_connect($mysqlHost, $mysqlUser, $mysqlPass);
-    if (!$connect)
-        die(json_encode(array("response" => 0, "error" => array("error_id" => 3, "error_message" => "Can't connect to MySQL server"))));
-    else {
-        mysql_select_db($mysqlBase, $connect);
-        $query = "SELECT * FROM `USERS` WHERE `VK_ID` = '" . $user_id . "'";
-        $request = mysql_query($query, $connect);
-        $a = mysql_fetch_array($request);
-        if ($a["uid"] == $user_id)
-            return $a;
-        else {
-            $query = "INSERT INTO `USERS` (`VK_ID`, `START_DATE`) VALUES ('" . $user_id . "', '" . time() . "')";
-            mysql_query($query, $connect);
-            $query = "SELECT * FROM `USERS` WHERE `VK_ID` = '" . $user_id . "'";
-            $request = mysql_query($query, $connect);
-            $a = mysql_fetch_array($request);
-            return $a;
-        }
+    lg("Trying to connect to $mysqlBase...");
+    $link = mysqli_connect($mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase);
+    if ($link) {
+        lg("Connection successful!..");
+        $query = "SELECT * FROM users WHERE vk_id = '$user_id'";
+        lg($query);
+        lg('id: ' . $user_id);
+        $result = mysqli_query($link, $query);
+        //mysqli_free_result($result);
+        $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        lg('res1: ' . $row[0]['rights']);
+        lg('res2: ' . $row[1]['rights']);
+        mysqli_free_result($result);
+        mysqli_close($link);
+    } else {
+        lg("No connection to mySQL...");
+        die("Connection faled. Error code: " . mysqli_connect_errno());
     }
+    return;
 }
 
 function CheckMessage($message)
