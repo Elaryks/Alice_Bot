@@ -82,11 +82,12 @@ function DB_Check()
     $result = mysqli_query($link, $query);
     $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
     if ($row[0]['vk_id'] == $user_id) {
-        lg('user exists');
+        lg("User exists");
     } else {
         //lg('We should create new note...');
         $datetime = date_create()->format('Y-m-d H:i:s');
-        $query = "INSERT INTO users (vk_id, s_date, rights) VALUES ('$user_id', '$datetime', 'userx')";
+        $query = "SET time_zone = 'Europe/Moscow'";
+        $query .= "INSERT INTO users (vk_id, s_date, rights) VALUES ('$user_id', '$datetime', 'userx')";
         mysqli_query($link, $query);
     }
     mysqli_free_result($result);
