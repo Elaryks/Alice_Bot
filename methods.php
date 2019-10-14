@@ -135,7 +135,16 @@ function UploadPhoto()
     $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"), true);
     $uploadURL = $uploadJSON['response']['upload_url'];
     $ff = upload($uploadURL, $image_path);
-    lg($ff['server']);
+    lg('Server: ' . $ff['server']);
+    $params = [
+        'access_token' => $botToken,
+        'server' => $ff['server'],
+        'photo' => $ff['photo'],
+        'hash' => $ff['hash'],
+    ];
+    $url = "https://api.vk.com/method/photos.saveWallPhoto?" . http_build_query($params);
+    $result_saved_photo = json_decode(file_get_contents($url), true)['response']['0'];
+    lg($result_saved_photo);
 }
 
 function CheckMessage($message)
