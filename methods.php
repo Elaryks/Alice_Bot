@@ -148,6 +148,7 @@ function UploadPhoto()
     $p_id = $result_saved_photo['response'][0]['id'];
     $result = "photo-{$groupID}_{$p_id}";
     lg('p: ' . $result);
+    return $result;
 }
 
 function CheckMessage($message)
