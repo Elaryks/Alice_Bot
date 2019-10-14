@@ -185,6 +185,7 @@ function SendTextMessage($from_id, $message)
 {
     global $botToken;
     $attachment = UploadPhoto();
+    lg('f' . $attachment);
     $request_params = array(
         'user_id' => $from_id,
         'random_id' => strval(random_int(1, 100000000)),
