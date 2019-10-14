@@ -189,6 +189,7 @@ function SendTextMessage($from_id, $message)
         'user_id' => $from_id,
         'random_id' => strval(random_int(1, 100000000)),
         'message' => $message,
+        'peer_id' => $from_id,
         'attachment' => $attachment,
         'access_token' => $botToken,
         'v' => '5.101'
