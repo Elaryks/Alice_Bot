@@ -108,6 +108,22 @@ function DB_Check()
     mysqli_close($link);
 }
 
+function upload($url, $file)
+{
+    if (extension_loaded('curl')) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS => array('file' => new CURLfile($file))
+        ));
+        $json = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($json, true);
+    }
+    return false;
+}
+
 function UploadPhoto()
 {
     DB_Check(); ////////////////////////
@@ -118,20 +134,8 @@ function UploadPhoto()
     // получаем урл для загрузки
     $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"), true);
     $uploadURL = $uploadJSON['response']['upload_url'];
-    lg('URL: ' . $uploadURL);
-
-    $aPost = array(
-        'file' => new CURLFile($image_path)
-    );
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $uploadURL);
-    curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $aPost);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $res = curl_exec($ch);
-    curl_close($ch);
-    $res = json_decode($res);
-    lg('res: ' . $res);
+    $ff = upload($uploadURL, $image_path);
+    lg($ff['server']);
 }
 
 function CheckMessage($message)
