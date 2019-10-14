@@ -84,6 +84,14 @@ function DB_Check()
     $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
     if ($row[0]['vk_id'] == $user_id) {
         lg("User exists");
+        $date1 = new DateTime($row[0]['s_date']);
+        $datetime = date_create()->format('Y-m-d H:i:s');
+        $date2 = new DateTime($datetime);
+        $diff = $date2->diff($date1);
+        $hours = $diff->h;
+        $hours = $hours + ($diff->days * 24);
+        lg('hrs: ' . $hours);
+        lg('Вы бы получили ' . $hours * 500 . ' монеток за это время');
         /*$d1 = \DateTime::createFromFormat($row[0]['s_date'], $f);
         $d2 = \DateTime::createFromFormat(date_create(), $f);
         $diff = $d2->diff($d1);
@@ -93,7 +101,7 @@ function DB_Check()
         //lg('We should create new note...');
         date_default_timezone_set('Europe/Moscow');
         $datetime = date_create()->format('Y-m-d H:i:s');
-        $query = "INSERT INTO users (vk_id, s_date, rights) VALUES ('$user_id', '$datetime', 'userx')";
+        $query = "INSERT INTO users (vk_id, s_date, rights) VALUES ('$user_id', '$datetime', 'user')";
         mysqli_query($link, $query);
     }
     mysqli_free_result($result);
@@ -102,34 +110,27 @@ function DB_Check()
 
 function UploadPhoto()
 {
-    DB_Check();
-    /*global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase, $user_id;
-    lg("Trying to connect to $mysqlBase...");
-    $link = mysqli_connect($mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase);
-    if ($link) {
-        lg("Connection successful!..");
-        /*$query = "SELECT * FROM users WHERE vk_id = '$user_id'";
-        lg($query);
-        lg('id: ' . $user_id);
-        $result = mysqli_query($link, $query);
-        //mysqli_free_result($result);
-        $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        lg('res1: ' . $row[0]['rights']);
-        lg('res2: ' . $row[1]['rights']);
-        $datetime = date_create()->format('Y-m-d H:i:s');
-        $query = "INSERT INTO users (vk_id, s_date, rights) VALUES ('$user_id', '$datetime', 'userx')";
-        if (mysqli_query($link, $query)) {
-            lg('New note adde successfully!..');
-        } else {
-            lg('Something went wrong: ' . mysqli_error($link));
-        }
-        // mysqli_free_result($result);
-        mysqli_close($link);
-    } else {
-        lg("No connection to mySQL...");
-        die("Connection faled. Error code: " . mysqli_connect_errno());
-    }
-    return;*/
+    DB_Check(); ////////////////////////
+    global $botToken, $groupID;
+    $image_path = dirname(__FILE__) . '/images/example.jpg';
+    lg('IPath: ' . $image_path);
+    $post_data = array("file1" => '@' . $image_path);
+
+    // получаем урл для загрузки
+    $url = file_get_contents("https://api.vk.com/method/photos.getUploadServer?group_id=$groupID&v=$5.101&access_token=$botToken");
+    $url = json_decode($url)->response->upload_url;
+    lg('URL: ' . $url);
+
+    // отправка post картинки
+    /*$ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+    $result = curl_exec($ch);
+    echo $result;*/
 }
 
 function CheckMessage($message)
