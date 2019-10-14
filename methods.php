@@ -113,24 +113,23 @@ function UploadPhoto()
     DB_Check(); ////////////////////////
     global $botToken, $groupID;
     $image_path = dirname(__FILE__) . '/images/example.jpg';
-    $post_data = array("file1" => new CURLFile($image_path));
+    //$post_data = array("file1" => new CURLFile($image_path));
 
     // получаем урл для загрузки
     $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"), true);
     $uploadURL = $uploadJSON['response']['upload_url'];
     lg('URL: ' . $uploadURL);
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $uploadURL);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $ch = curl_init($uploadURL);
+    $post_params = array(
+        'file1' => '@' . $image_path,
+    );
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        "Content-Type:multipart/form-data"
-    ));
-    curl_setopt($ch, CURLOPT_POSTFIELDS, array('photo1' => $image_path));
-
-    $res = json_decode(curl_exec($ch));
-    lg('res: ' . $res);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
+    $response = curl_exec($ch);
     curl_close($ch);
 }
 
