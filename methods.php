@@ -137,6 +137,7 @@ function UploadPhoto()
     $ff = upload($uploadURL, $image_path);
     lg('Server: ' . $ff['server']);
     lg('Photo: ' . $ff['photo']);
+    lg('Hash: ' . $ff['hash']);
     $params = [
         'access_token' => $botToken,
         'server' => $ff['server'],
