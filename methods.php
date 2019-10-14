@@ -142,6 +142,7 @@ function UploadPhoto()
         'server' => $ff['server'],
         'photo' => $ff['photo'],
         'hash' => $ff['hash'],
+        'v' => '5.101'
     ];
     $url = "https://api.vk.com/method/photos.saveWallPhoto?" . http_build_query($params);
     $result_saved_photo = json_decode(file_get_contents($url), true)['response']['0'];
