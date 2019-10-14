@@ -146,8 +146,9 @@ function UploadPhoto()
         'v' => '5.101'
     ];
     $url = "https://api.vk.com/method/photos.saveWallPhoto?" . http_build_query($params);
-    $result_saved_photo = json_decode(file_get_contents($url), true)['response']['0'];
-    lg('Result: ' . $result_saved_photo);
+    $result_saved_photo = json_decode(file_get_contents($url), true);
+    lg('Result: ' . $result_saved_photo['0']);
+    lg('Result: ' . $result_saved_photo['response']['0']);
 }
 
 function CheckMessage($message)
