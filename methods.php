@@ -170,7 +170,7 @@ function CheckMessage($message)
             }
         }
     }
-    UploadPhoto();
+    //UploadPhoto();
     return "Извини, {$user_name}, я тебя не понял &#128532; Напиши \"Справка\", чтобы узнать доступные команды";
 }
 
@@ -184,10 +184,12 @@ function SetActivity($type)
 function SendTextMessage($from_id, $message)
 {
     global $botToken;
+    $attachment = UploadPhoto();
     $request_params = array(
         'user_id' => $from_id,
         'random_id' => strval(random_int(1, 100000000)),
         'message' => $message,
+        'attachment' => $attachment,
         'access_token' => $botToken,
         'v' => '5.101'
     );
