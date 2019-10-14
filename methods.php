@@ -72,6 +72,7 @@ function GetWeather()
 function DB_Check()
 {
     global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase, $user_id;
+    $f = 'Y-m-d H:i:s';
     lg("Trying to connect to $mysqlBase to check user...");
     $link = mysqli_connect($mysqlHost, $mysqlUser, $mysqlPass, $mysqlBase);
     if (!$link) {
@@ -83,6 +84,11 @@ function DB_Check()
     $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
     if ($row[0]['vk_id'] == $user_id) {
         lg("User exists");
+        $d1 = \DateTime::createFromFormat($row[0]['s_date'], $f);
+        $d2 = \DateTime::createFromFormat(date_create(), $f);
+        $diff = $d2->diff($d1);
+        $hours = $diff->h + ($diff->days * 24); // + ($diff->m > 30 ? 1 : 0) to be more precise
+        lg('hrs: ' . $hours);
     } else {
         //lg('We should create new note...');
         date_default_timezone_set('Europe/Moscow');
