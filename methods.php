@@ -117,7 +117,7 @@ function UploadPhoto()
     $post_data = array("file1" => '@' . $image_path);
 
     // получаем урл для загрузки
-    $url = file_get_contents("https://api.vk.com/method/photos.getUploadServer?group_id=$groupID&v=$5.101&access_token=$botToken");
+    $url = file_get_contents("https://api.vk.com/method/photos.getUploadServer?peer_id=1&group_id=$groupID&access_token=$botToken&v=$5.101");
     $url = json_decode($url)->response->upload_url;
     lg('URL: ' . $url);
 
