@@ -146,15 +146,15 @@ function UploadPhoto()
         'v' => '5.101'
     ];
 
-    $save = file_get_contents("https://api.vk.com/method/photos.save?server=" . $ff['server'] . "&photos_list=" . $ff['photos_list'] . "&album_id=" . $ff['aid'] . "&hash=" . $ff['hash'] . "&gid=" . $groupID . "&access_token=" . $botToken . "&v=5.101");
+    $save = file_get_contents("https://api.vk.com/method/photos.saveMessagesPhoto?server=" . $ff['server'] . "&photo=" . $ff['photo'] . "&hash=" . $ff['hash'] . $botToken . "&v=5.101");
     $save = json_decode($save, true);
-    lg($save['id']);
+    lg('Photo ID: ' . $save['id']);
 
-    $url = "https://api.vk.com/method/photos.saveWallPhoto?" . http_build_query($params);
+    /*$url = "https://api.vk.com/method/photos.saveWallPhoto?" . http_build_query($params);
     $result_saved_photo = json_decode(file_get_contents($url), true);
     lg('Result: ' . $result_saved_photo['response']);
     lg('Result: ' . $result_saved_photo['0']);
-    lg('Result: ' . $result_saved_photo['response']['0']);
+    lg('Result: ' . $result_saved_photo['response']['0']);*/
 }
 
 function CheckMessage($message)
