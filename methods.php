@@ -129,9 +129,6 @@ function UploadPhoto()
     DB_Check(); ////////////////////////
     global $botToken, $groupID;
     $image_path = dirname(__FILE__) . '/images/example.jpg';
-    //$post_data = array("file1" => new CURLFile($image_path));
-
-    // получаем урл для загрузки
     $uploadJSON = json_decode(file_get_contents("https://api.vk.com/method/photos.getMessagesUploadServer?access_token={$botToken}&v=5.101"), true);
     $uploadURL = $uploadJSON['response']['upload_url'];
     $ff = upload($uploadURL, $image_path);
@@ -145,16 +142,12 @@ function UploadPhoto()
         'hash' => $ff['hash'],
         'v' => '5.101'
     ];
-
-    $save = file_get_contents("https://api.vk.com/method/photos.saveMessagesPhoto?server=" . $ff['server'] . "&photo=" . $ff['photo'] . "&hash=" . $ff['hash'] . $botToken . "&v=5.101");
-    $save = json_decode($save, true);
-    lg('Photo ID: ' . $save['id']);
-
-    /*$url = "https://api.vk.com/method/photos.saveWallPhoto?" . http_build_query($params);
+    $url = "https://api.vk.com/method/photos.saveMessagesPhoto?" . http_build_query($params);
     $result_saved_photo = json_decode(file_get_contents($url), true);
-    lg('Result: ' . $result_saved_photo['response']);
-    lg('Result: ' . $result_saved_photo['0']);
-    lg('Result: ' . $result_saved_photo['response']['0']);*/
+    lg('Result: ' . $result_saved_photo['response'][0]['id']);
+    $p_id = $result_saved_photo['response'][0]['id'];
+    $result = "photo-{$groupID}_{$p_id}";
+    lg('p: ' . $result);
 }
 
 function CheckMessage($message)
